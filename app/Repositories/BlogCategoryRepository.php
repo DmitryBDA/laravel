@@ -18,7 +18,7 @@ class BlogCategoryRepository extends CoreRepository
         return $this->startConditions()->find($id);
     }
 
-    public function getForCombobox()
+    public function getForComboBox()
     {
         //return $this->startConditions()->all();
         $columns = implode(', ', [

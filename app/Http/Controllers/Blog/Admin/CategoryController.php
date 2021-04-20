@@ -39,7 +39,7 @@ class CategoryController extends BaseController
     public function create()
     {
         $item = new BlogCategory();
-        $categoryList = $this->blogCategoryRepository->getForCombobox();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
 
         return view('blog.admin.categories.edit', compact('item', 'categoryList'));
     }
@@ -95,7 +95,7 @@ class CategoryController extends BaseController
             abort(404);
         }
 
-        $categoryList = $this->blogCategoryRepository->getForCombobox();
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
 
         return view('blog.admin.categories.edit', compact('item', 'categoryList'));
     }

@@ -9,6 +9,8 @@ class BlogPost extends Model
 {
     use HasFactory;
 
+    const UNKNOW_USER = 1;
+
     protected $fillable = [
         'title',
         'slug',

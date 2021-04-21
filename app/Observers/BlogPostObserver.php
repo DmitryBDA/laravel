@@ -19,6 +19,15 @@ class BlogPostObserver
         //
     }
 
+    public function creating(BlogPost $blogPost)
+    {
+        $this->setPublishedAt($blogPost);
+        $this->setSlug($blogPost);
+
+        $this->setHtml($blogPost);
+        $this->setUser($blogPost);
+    }
+
     /**
      * Handle the BlogPost "updated" event.
      *
@@ -42,20 +51,7 @@ class BlogPostObserver
         $this->setSlug($blogPost);
     }
 
-    protected function setPublishedAt(BlogPost $blogPost)
-    {
 
-        if (empty($blogPost->published_at) && $blogPost->is_published) {
-            $blogPost->published_at = Carbon::now();
-        }
-    }
-
-    protected function setSlug(BlogPost $blogPost)
-    {
-        if (empty($blogPost->slug)) {
-            $blogPost->slug = Str::slug($blogPost->title);
-        }
-    }
 
     /**
      * Handle the BlogPost "deleted" event.
@@ -88,5 +84,33 @@ class BlogPostObserver
     public function forceDeleted(BlogPost $blogPost)
     {
         //
+    }
+
+    protected function setPublishedAt(BlogPost $blogPost)
+    {
+
+        if (empty($blogPost->published_at) && $blogPost->is_published) {
+            $blogPost->published_at = Carbon::now();
+        }
+    }
+
+    protected function setSlug(BlogPost $blogPost)
+    {
+        if (empty($blogPost->slug)) {
+            $blogPost->slug = Str::slug($blogPost->title);
+        }
+    }
+
+    protected function setHtml(BlogPost $blogPost)
+    {
+        if($blogPost->isDirty('content_raw')){
+            //TODO: тут будет генерация markdown -> html
+            $blogPost->content_html = $blogPost->content_raw;
+        }
+    }
+
+    protected function setUser(BlogPost $blogPost)
+    {
+        $blogPost->user_id = auth()->id() ?? BlogPost::UNKNOW_USER;
     }
 }

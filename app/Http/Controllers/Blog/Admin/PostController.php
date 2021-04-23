@@ -51,7 +51,7 @@ class PostController extends BaseController
         //переехала в AppServiceProvider
         //$categoryList = $this->blogCategoryRepository->getForComboBox();
 
-        return view('blog.admin.posts.edit', compact('item'));
+        return view('blog.admin.posts.edit', compact('item', ));
     }
 
     /**
@@ -103,9 +103,9 @@ class PostController extends BaseController
         if(empty($item)){
             abort(404);
         }
-        //переехала в AppServiceProvider
-        //$categoryList = $this->blogCategoryRepository->getForComboBox();
-        return view('blog.admin.posts.edit', compact('item' ));
+
+        $categoryList = $this->blogCategoryRepository->getForComboBox();
+        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
     }
 
     /**

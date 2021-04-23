@@ -47,9 +47,11 @@ class PostController extends BaseController
     public function create()
     {
         $item = new BlogPost();
-        $categoryList = $this->blogCategoryRepository->getForComboBox();
 
-        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
+        //переехала в AppServiceProvider
+        //$categoryList = $this->blogCategoryRepository->getForComboBox();
+
+        return view('blog.admin.posts.edit', compact('item', ));
     }
 
     /**
@@ -101,9 +103,9 @@ class PostController extends BaseController
         if(empty($item)){
             abort(404);
         }
-
-        $categoryList = $this->blogCategoryRepository->getForComboBox();
-        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
+        //переехала в AppServiceProvider
+        //$categoryList = $this->blogCategoryRepository->getForComboBox();
+        return view('blog.admin.posts.edit', compact('item' ));
     }
 
     /**

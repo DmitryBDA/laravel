@@ -104,8 +104,9 @@ class PostController extends BaseController
             abort(404);
         }
 
-        $categoryList = $this->blogCategoryRepository->getForComboBox();
-        return view('blog.admin.posts.edit', compact('item', 'categoryList'));
+        //переехала в AppServiceProvider
+        //$categoryList = $this->blogCategoryRepository->getForComboBox();
+        return view('blog.admin.posts.edit', compact('item'));
     }
 
     /**

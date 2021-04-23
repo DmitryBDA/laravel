@@ -2,7 +2,8 @@
 
 namespace App\Providers;
 
-
+use App\Repositories\BlogCategoryRepository;
+use Illuminate\Support\Facades\View;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Observers\BlogCategoryObserver;
@@ -27,11 +28,15 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(BlogCategoryRepository $blogCategoryRepository)
     {
         Paginator::useBootstrap();
 
         BlogPost::observe(BlogPostObserver::class);
         BlogCategory::observe(BlogCategoryObserver::class);
+
+        //Переменная $categoryList будет доступна во всех шаблонах
+        $categoryList = $blogCategoryRepository->getForComboBox();
+        View::share(['categoryList' => $categoryList]);
     }
 }

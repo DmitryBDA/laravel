@@ -32,9 +32,14 @@ class PostController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+
         $paginator = $this->blogPostRepository->getAllWithPaginate(25);
+
+        if($request->ajax()){
+            return view('ajax.posts-list', compact('paginator'))->render();
+        }
 
         return view('blog.admin.posts.index', compact('paginator'));
     }

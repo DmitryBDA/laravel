@@ -3,7 +3,9 @@
 
 namespace App\Repositories;
 
+use App\filters\ProductFilter;
 use App\Models\BlogPost as Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogPostRepository extends CoreRepository
 {
@@ -22,6 +24,8 @@ class BlogPostRepository extends CoreRepository
      */
     public function getAllWithPaginate($perPage = null){
 
+        $filter = app(ProductFilter::class);
+
         $columns = [
             'id',
             'title',
@@ -35,6 +39,7 @@ class BlogPostRepository extends CoreRepository
         $result = $this
             ->startConditions()
             ->select($columns)
+            ->filter($filter)
             ->orderBy('id', 'DESC')
             //->with(['category', 'user'])
             ->with([

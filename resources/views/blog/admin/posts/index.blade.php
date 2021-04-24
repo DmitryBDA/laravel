@@ -13,52 +13,49 @@
 
                @include('blog.admin.posts.includes.result_messages')
 
-               <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-                   <a class="btn btn-primary" href="{{ route('blog.admin.posts.create') }}">Написать</a>
-               </nav>
-               <div class="card">
-                   <div class="card-body">
-                       <table class="table table-hover">
-                           <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Автор</th>
-                                    <th>Категория</th>
-                                    <th>Заголовок</th>
-                                    <th>Дата публикации</th>
-                                </tr>
-                           </thead>
-                           <tbody>
-                           @foreach($paginator as $post)
-                               <tr @if(!$post->is_published) style="background-color: #ccc; " @endif>
-                                   <td>{{ $post->id }}</td>
-                                   <td>{{ $post->user->name }}</td>
-                                   <td>{{ $post->category->title }}</td>
-                                   <td>
-                                       <a href="{{ route('blog.admin.posts.edit', $post->id) }}">{{ $post->title }}</a>
-                                   </td>
-                                   <td>{{ $post->published_at ? \Carbon\Carbon::parse($post->published_at)->format('d.M H:i') : '' }}</td>
-                               </tr>
-                           @endforeach
-                           </tbody>
-                           <tfoot></tfoot>
-                       </table>
+               <div class="row">
+                   <div class="col-md-4">
+                       <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
+                           <a class="btn btn-primary" href="{{ route('blog.admin.posts.create') }}">Написать</a>
+                       </nav>
                    </div>
-               </div>
-           </div>
+                   <div class="col-md-8">
+                       <form action="" method="get" style="padding: 0.5rem 1rem;">
+                           <div class="row">
+                               <div class="col-md-4">
+                                   <div class="mb-8">
+                                       <input name="search_field" @if(isset($_GET['search_field'])) value="{{$_GET['search_field']}}" @endif type="text" class="form-control" id="exampleFormControlInput1" placeholder="Type something">
+                                       <input name="date_field"  @if(isset($_GET['date_field'])) value="{{$_GET['date_field']}}" @endif  type="date" class="form-control" id="exampleFormControlInput1" placeholder="Type something">
+                                   </div>
+                               </div>
+                               <div class="col-md-4">
+                                   <button type="submit" class="btn btn-primary">Поиск</button>
+                               </div>
+                           </div>
+                       </form>
+                       <div class="col-md-4">
+                           <select name="sort" class="form-select form-select-sm product_sorting_btn" aria-label=".form-select-sm example">
+                               <option value="" @if(isset($_GET['sort'])) @if($_GET['sort'] == "") selected @endif @endif>Не выбрано</option>
+                               <option value="published_at|asc" @if(isset($_GET['sort'])) @if($_GET['sort'] == "published_at|asc") selected @endif @endif>Публикация(по возрастанию)</option>
+                               <option value="published_at|desc" @if(isset($_GET['sort'])) @if($_GET['sort'] == "published_at|desc") selected @endif @endif>Публикация(по убыванию)</option>
+                               <option value="id|asc" @if(isset($_GET['sort'])) @if($_GET['sort'] == "id|asc") selected @endif @endif>ид(по возрастанию)</option>
+                               <option value="id|desc" @if(isset($_GET['sort'])) @if($_GET['sort'] == "id|desc") selected @endif @endif>ид(по убыванию)</option>
 
-       </div>
-       @if($paginator->total() > $paginator->count())
-           <br>
-           <div class="row justify-content-center">
-               <div class="col-md-12">
-                   <div class="card">
-                       <div class="card-body">
-                           {{ $paginator->links() }}
+                           </select>
                        </div>
                    </div>
                </div>
+
+               <div id="productList">
+
+                   @include('ajax.posts-list')
+
+               </div>
+
            </div>
-       @endif
+
+       </div>
+
+
    </div>
 @endsection
